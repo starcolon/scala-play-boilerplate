@@ -86,10 +86,10 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey",
           |  "body":  "After having seen and evidenced the tangible benefit of #lean at Mashreq Bank, #agile was seen as a natural progression, an evolutionary step."
-          } """
+          |}"""
         )).get
       status(result) mustBe CREATED
     }
@@ -101,10 +101,10 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey",
           |  "body":  "After having seen and evidenced the tangible benefit of #lean at Mashreq Bank, #agile was seen as a natural progression, an evolutionary step."
-          } """
+          |}"""
         )).get
       contentType(result) mustBe Some("application/json")
     }
@@ -116,10 +116,10 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey",
           |  "body":  "After having seen and evidenced the tangible benefit of #lean at Mashreq Bank, #agile was seen as a natural progression, an evolutionary step."
-          } """
+          |}"""
         )).get
       contentAsString(result) must include("Mashreq Bank’s Lean Agile Journey")
     }
@@ -131,10 +131,10 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey",
           |  "body":  "After having seen and evidenced the tangible benefit of #lean at Mashreq Bank, #agile was seen as a natural progression, an evolutionary step."
-          } """
+          |}"""
         )).get
       contentAsString(result) must include(""""hashtags": ["lean", "agile"]""")
     }
@@ -146,10 +146,10 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey",
           |  "body":  "After having seen and evidenced the tangible benefit of #lean at Mashreq Bank, #agile was seen as a natural progression, an evolutionary step."
-          } """
+          |}"""
         )).get
       status(result) mustBe CREATED
       val indexResult = route(app, FakeRequest(GET, "/documents")).get
@@ -165,9 +165,9 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey"
-          } """
+          |}"""
         )).get
       status(result) mustBe BAD_REQUEST
     }
@@ -179,9 +179,9 @@ class DocumentControllerSpec extends PlaySpec
           POST,
           "/documents",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Mashreq Bank’s Lean Agile Journey"
-          } """
+          |}"""
         )).get
       status(result) mustBe BAD_REQUEST
       val indexResult = route(app, FakeRequest(GET, "/documents")).get
@@ -197,10 +197,10 @@ class DocumentControllerSpec extends PlaySpec
           PUT,
           "/documents/1",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Quarkus, an awesome Kubernetes Native Java Framework",
           |  "body":  "Quarkus is fast and simply #awesome."
-          } """
+          |}"""
         )).get
       status(result) mustBe ACCEPTED
     }
@@ -212,10 +212,10 @@ class DocumentControllerSpec extends PlaySpec
           PUT,
           "/documents/1",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Quarkus, an awesome Kubernetes Native Java Framework",
           |  "body":  "Quarkus is fast and simply #awesome."
-          } """
+          |}"""
         )).get
       contentType(result) mustBe Some("application/json")
     }
@@ -227,10 +227,10 @@ class DocumentControllerSpec extends PlaySpec
           PUT,
           "/documents/1",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Quarkus, an awesome Kubernetes Native Java Framework",
           |  "body":  "Quarkus is fast and simply #awesome."
-          } """
+          |}"""
         )).get
       contentAsString(result) must include("Quarkus, an awesome Kubernetes Native Java Framework")
     }
@@ -242,10 +242,10 @@ class DocumentControllerSpec extends PlaySpec
           PUT,
           "/documents/1",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Quarkus, an awesome Kubernetes Native Java Framework",
           |  "body":  "Quarkus is fast and simply #awesome."
-          } """
+          |}"""
         )).get
       status(result) mustBe ACCEPTED
 
@@ -265,9 +265,9 @@ class DocumentControllerSpec extends PlaySpec
           PUT,
           "/documents/1",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Quarkus, an awesome Kubernetes Native Java Framework"
-          } """
+          |}"""
         )).get
       status(result) mustBe BAD_REQUEST
     }
@@ -279,9 +279,9 @@ class DocumentControllerSpec extends PlaySpec
           PUT,
           "/documents/1",
           FakeHeaders(List("HOST"->"localhost", "Content-type"->"application/json")),
-          """ {
+          """{
           |  "title": "Quarkus, an awesome Kubernetes Native Java Framework"
-          } """
+          |}"""
         )).get
       status(result) mustBe BAD_REQUEST
 
