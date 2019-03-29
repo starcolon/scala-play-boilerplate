@@ -1,0 +1,12 @@
+[
+  {
+    "id":    1,
+    "title": "Quarkus, a Kubernetes Native Java Framework",
+    "body":  "Red Hat has released #Quarkus, a #Kubernetes native #Java framework tailored for GraalVM and OpenJDK HotSpot."
+  },
+  {
+    "id":    2,
+    "title": "Java 11 Released",
+    "body":  "#Java 11 has arrived. The new release is the first planned appearance of #Oracle's #LTS releases, although #Oracle has also grandfathered in Java 8 as an LTS release to help bridge the gap between the old release model and the new approach."
+  }
+]
