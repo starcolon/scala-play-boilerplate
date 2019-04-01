@@ -35,27 +35,16 @@ class DocumentControllerSpec extends PlaySpec
    */
   }
 
-  // override def beforeAll() {
-  //   val mongoClient = MongoClients.create("mongodb://localhost:27017/")
-  //   val database = mongoClient.getDatabase("documents")
-  //   val collection = database.getCollection("document")
-  //   println(Console.CYAN + "SUCCESS")
-  //   collection.find().forEach(printBlock)
-  //   println(Console.RESET)
-  // }
-
   override def beforeAll(){
     implicit val ec: ExecutionContext = ExecutionContext.global
 
-    //val codecRegistry = fromRegistries(fromProviders(classOf[Doc]), DEFAULT_CODEC_REGISTRY )
     val mongoClient = MongoClient()
-    val database = mongoClient.getDatabase("documents")//.withCodecRegistry(codecRegistry)
+    val database = mongoClient.getDatabase("documents")
     val collection = database.getCollection("document")
-    collection.find().toFuture().map{
-      case x: Seq[Document] => x.map(Doc.from)
-      case _ => Nil
-    }.value
-
+    collection.find().toFuture().foreach{
+      case x: Seq[Document] => println(Console.MAGENTA + Doc.from + Console.RESET)
+      case _ => println
+    }
   }
 
 
