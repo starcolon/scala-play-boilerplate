@@ -2,4 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # https://www.playframework.com/documentation/latest/ScalaRouting
 #
-GET / controllers.DocumentController.index
+GET  /                controllers.DocumentController.index
+
+GET  /documents        controllers.DocumentController.listDocuments
+GET  /documents/:id    controllers.DocumentController.getDocument(id: String)
+POST /documents        controllers.DocumentController.createDocument
+PUT  /documents/:id    controllers.DocumentController.updateDocument(id: String)
+DELETE /documents/:id  controllers.DocumentController.deleteDocument(id: String)
