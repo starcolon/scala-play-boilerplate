@@ -21,7 +21,12 @@ class DocumentController @Inject()
   }
 
   def getDocument(id: String) = Action {
-    Ok(Json.obj("Message" -> "Please input something"))
+    val document = Doc.getById(id)
+    val docStr = document match {
+      case None => "Not found"
+      case Some(doc) => doc.toString
+    }
+    Ok(Json.obj("Message" -> docStr))
   }
 
   def createDocument() = Action {
@@ -33,6 +38,7 @@ class DocumentController @Inject()
   }
 
   def deleteDocument(id: String) = Action {
-    Ok(Json.obj("Message" -> "Please input something"))
+    Doc.deleteById(id)
+    Ok(Json.obj("Message" -> "Document deleted"))
   }
 }
