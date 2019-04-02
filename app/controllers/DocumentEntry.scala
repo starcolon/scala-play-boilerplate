@@ -76,6 +76,21 @@ object Doc {
       Duration.Inf
     )
   }
+
+  def updateDocument(id: String, title: String, body: String): Unit = {
+    val newDoc = Document(
+      "title" -> title,
+      "body" -> body
+    )
+    val query = new BasicDBObject()
+    query.put("_id", new ObjectId(id))
+
+    Await.result(
+      collection.findOneAndReplace(query, newDoc).toFuture(),
+      //collection.findOneAndUpdate(query, newDoc).toFuture(),
+      Duration.Inf
+    )
+  }
 }
 
 

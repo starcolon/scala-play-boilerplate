@@ -45,12 +45,20 @@ class DocumentController @Inject()
     Ok(Json.obj("Message" -> "Please input something"))
   }
 
-  def updateDocument(id: String) = Action {
-    Ok(Json.obj("Message" -> "Please input something"))
+  def updateDocument(id: String) = Action { request =>
+
+    // Read json
+    val json = request.body.asJson.get
+    val title = (json \ "title").as[String]
+    val body = (json \ "body").as[String]
+
+    Doc.updateDocument(id, title, body)
+    Ok(Json.obj("Message" -> "Document updated"))
   }
 
   def deleteDocument(id: String) = Action {
     Doc.deleteById(id)
     Ok(Json.obj("Message" -> "Document deleted"))
   }
+
 }
