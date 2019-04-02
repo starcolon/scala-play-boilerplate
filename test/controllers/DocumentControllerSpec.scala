@@ -35,17 +35,12 @@ class DocumentControllerSpec extends PlaySpec
    */
   }
 
-  override def beforeAll(){
-    implicit val ec: ExecutionContext = ExecutionContext.global
-
-    val mongoClient = MongoClient()
-    val database = mongoClient.getDatabase("documents")
-    val collection = database.getCollection("document")
-    collection.find().toFuture().foreach{
-      case x: Seq[Document] => println(Console.MAGENTA + Doc.from + Console.RESET)
-      case _ => println
-    }
+  override def beforeAll(): Unit = {
+    Doc.insertDocument("Quarkus, a Kubernetes Native Java Framework", "Red Hat has released #Quarkus, a #Kubernetes native #Java framework tailored for GraalVM and OpenJDK HotSpot.")
+    Doc.insertDocument("Java 11 Released", "#Java 11 has arrived. The new release is the first planned appearance of #Oracle's #LTS releases, although #Oracle has also grandfathered in Java 8 as an LTS release to help bridge the gap between the old release model and the new approach.")
   }
+
+  val docId = "5ca35f3b91966c1a2816e83c"
 
 
   "GET /documents" ignore {
@@ -71,17 +66,17 @@ class DocumentControllerSpec extends PlaySpec
 
   "GET /documents/:id" should {
     "return OK" in {
-      val result = route(app, FakeRequest(GET, "/documents/1")).get
+      val result = route(app, FakeRequest(GET, s"/documents/$docId")).get
       status(result) mustBe OK
     }
 
     "return JSON" in {
-      val result = route(app, FakeRequest(GET, "/documents/1")).get
+      val result = route(app, FakeRequest(GET, s"/documents/$docId")).get
       contentType(result) mustBe Some("application/json")
     }
 
     "return only the document requested" in {
-      val result = route(app, FakeRequest(GET, "/documents/1")).get
+      val result = route(app, FakeRequest(GET, s"/documents/$docId")).get
       val responseBody = contentAsString(result)
 
       responseBody must include("Quarkus, a Kubernetes Native Java Framework")
@@ -89,7 +84,7 @@ class DocumentControllerSpec extends PlaySpec
     }
 
     "return all extracted hashtags transformed to lowercase" in {
-      val result = route(app, FakeRequest(GET, "/documents/1")).get
+      val result = route(app, FakeRequest(GET, s"/documents/$docId")).get
       val responseBody = contentAsString(result)
 
       responseBody must include(""""hashtags": ["quarkus", "kubernetes", "java"]""")

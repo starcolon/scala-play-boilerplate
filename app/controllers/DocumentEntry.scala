@@ -71,10 +71,14 @@ object Doc {
       "body" -> body
     )
 
-    Await.result(
+    val result = Await.result(
       collection.insertOne(newDoc).toFuture(),
       Duration.Inf
     )
+
+    println("Insert result = ", result.toString())
+    println("Insert result type = ", result.getClass().getName())
+    result
   }
 
   def updateDocument(id: String, title: String, body: String): Unit = {
@@ -87,7 +91,6 @@ object Doc {
 
     Await.result(
       collection.findOneAndReplace(query, newDoc).toFuture(),
-      //collection.findOneAndUpdate(query, newDoc).toFuture(),
       Duration.Inf
     )
   }
