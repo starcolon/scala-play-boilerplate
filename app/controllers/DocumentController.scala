@@ -14,7 +14,10 @@ class DocumentController @Inject()
   }
 
   def listDocuments() = Action {
-    Ok(Json.obj("Message" -> "Please input something"))
+    val documents = Doc.getAll()
+    println("Documents ::")
+    documents.foreach{println}
+    Ok(Json.obj("Message" -> documents.map(_.toString).mkString(", ")))
   }
 
   def getDocument(id: String) = Action {

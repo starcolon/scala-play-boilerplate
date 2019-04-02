@@ -1,14 +1,23 @@
 package controllers
 
-import org.mongodb._
-import org.mongodb.scala._
-import org.mongodb.scala.bson.ObjectId
+import akka.actor.Status.Success
+
+import scala.util
+import scala.concurrent._
+import scala.concurrent.duration._
 
 import scala.concurrent.ExecutionContext
+import org.mongodb.scala._
+import org.mongodb.scala.bson.ObjectId
 
 case class Doc(_id: ObjectId, title: String, body: String)
 
 object Doc {
+  implicit val ec: ExecutionContext = ExecutionContext.global
+  lazy val mongoClient = MongoClient()
+  lazy val database = mongoClient.getDatabase("documents")
+  lazy val collection = database.getCollection("document")
+
   def apply(title: String, body: String): Doc = 
     Doc(new ObjectId(), title, body)
 
@@ -21,15 +30,27 @@ object Doc {
   }
 
   def getAll(): Seq[Doc] = {
-    implicit val ec: ExecutionContext = ExecutionContext.global
-
-    val mongoClient = MongoClient()
-    val database = mongoClient.getDatabase("documents")
-    val collection = database.getCollection("document")
-    collection.find().toFuture().map{
-      case x: Seq[Document] => x.map(Doc.from)
+    val readDocuments = collection.find().toFuture().map{
+      case x: Seq[Document] =>
+        println(s"Num of documents = ${x.length}")
+        x.map(Doc.from)
       case _ => Nil
-    }.value.getOrElse(Nil)
+    }
+
+    Await.result(readDocuments, Duration.Inf)
+
+//
+//
+//      .value.map{
+//      case util.Success(output) =>
+//        println("Output = ")
+//        println(output)
+//        output
+//      case util.Failure(e) =>
+//        println("Error parsing documents")
+//        println(e)
+//        Nil
+//    }.getOrElse(Nil)
   }
 }
 
