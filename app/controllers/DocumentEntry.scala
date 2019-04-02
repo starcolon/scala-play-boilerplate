@@ -64,6 +64,18 @@ object Doc {
       Duration.Inf
     )
   }
+
+  def insertDocument(title: String, body: String): Unit = {
+    val newDoc = Document(
+      "title" -> title,
+      "body" -> body
+    )
+
+    Await.result(
+      collection.insertOne(newDoc).toFuture(),
+      Duration.Inf
+    )
+  }
 }
 
 

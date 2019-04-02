@@ -6,6 +6,7 @@ import play.api._
 import play.api.libs.json.Json
 import play.api.mvc._
 
+
 class DocumentController @Inject()
 (cc: ControllerComponents)() extends AbstractController(cc) {
   // Root 
@@ -29,7 +30,18 @@ class DocumentController @Inject()
     Ok(Json.obj("Message" -> docStr))
   }
 
-  def createDocument() = Action {
+  def createDocument() = Action { request =>
+
+    println(Console.MAGENTA + request.body + Console.RESET )
+
+    // Read json
+    val json = request.body.asJson.get
+    val title = (json \ "title").as[String]
+    val body = (json \ "body").as[String]
+
+    println(Console.MAGENTA + s"title = $title, body = $body" + Console.RESET)
+
+    Doc.insertDocument(title, body)
     Ok(Json.obj("Message" -> "Please input something"))
   }
 
